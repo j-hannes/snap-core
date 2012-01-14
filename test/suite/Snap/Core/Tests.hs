@@ -30,7 +30,8 @@ import           Test.Framework
 import           Test.Framework.Providers.HUnit
 import           Test.Framework.Providers.QuickCheck2
 import           Test.HUnit hiding (Test, path)
-                 
+
+import           Snap.Internal.Exceptions
 import           Snap.Internal.Http.Types
 import           Snap.Internal.Parsing
 import           Snap.Internal.Types
@@ -96,9 +97,9 @@ mkRequest :: ByteString -> IO Request
 mkRequest uri = do
     enum <- newIORef $ SomeEnumerator returnI
 
-    return $ Request "foo" 80 "127.0.0.1" 999 "foo" 1000 "foo" False H.empty
-                     enum Nothing GET (1,1) [] "" uri "/"
-                     (S.concat ["/",uri]) "" Map.empty
+    return $! Request "foo" 80 "127.0.0.1" 999 "foo" 1000 "foo" False H.empty
+                      enum Nothing GET (1,1) [] "" uri "/"
+                      (S.concat ["/",uri]) "" Map.empty
 
 mkRequestQuery :: ByteString -> ByteString -> [ByteString] -> IO Request
 mkRequestQuery uri k v = do
@@ -284,7 +285,7 @@ testBracketSnap = testCase "types/bracketSnap" $ do
                         (const $ return ())
                         (const $ return ())
                         rq
-                         
+
     y' <- readIORef ref
     assertEqual "bracketSnap/after" 2 y'
 
@@ -294,7 +295,7 @@ testBracketSnap = testCase "types/bracketSnap" $ do
                         (const $ return ())
                         (const $ return ())
                         rq
-                         
+
     y'' <- readIORef ref
     assertEqual "bracketSnap/after" 3 y''
 
