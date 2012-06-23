@@ -68,7 +68,7 @@ import           Snap.Iteratee hiding (map)
 4. convenience functions ('writeBS', 'writeLBS', 'writeText', 'writeLazyText',
    'addToOutput') for queueing output to be written to the 'Response':
 
-   > a :: (forall a . Enumerator a) -> Snap ()
+   > a :: (forall b. Enumerator Builder IO b) -> Snap ()
    > a someEnumerator = do
    >     writeBS "I'm a strict bytestring"
    >     writeLBS "I'm a lazy bytestring"
